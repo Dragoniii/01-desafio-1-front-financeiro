@@ -2,21 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Planilha financeira</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Planilha Financeira</title>
     <link rel="stylesheet" href="./style.css" />
-    <script src="./dist/index.js" defer></script>
   </head>
 
   <body>
-    <h1>Planilha financeira</h1>
+    <h1>Planilha Financeira</h1>
     <br />
     <fieldset class="table">
-      <legend>Faça Login</legend>
+      <legend>Faça o Login</legend>
       <br />
       <form onsubmit="logar(event)">
-        <label for="email">Email: </label>
-        <input type="email" name="email" id="email" required />
+        <label for="user">Usuário: </label>
+        <input type="user" name="user" id="user" required />
         <br />
         <label for="password">Senha: </label>
         <input type="password" name="senha" id="senha" required />
@@ -30,6 +29,6 @@
       </form>
     </fieldset>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+    <script src="./js/index.js"></script>
   </body>
 </html>
