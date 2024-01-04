@@ -16,12 +16,10 @@ async function logar(event) {
       senha,
     });
     const token = resposta.data;
-    alert(token)
 
-    localStorage.setItem("Token", token);
+    sessionStorage.setItem("Token", token);
 
-    window.location.assign("http://127.0.0.1:5500/home.html")
-
+    window.location.assign("http://127.0.0.1:5500/home.html");
   } catch (error) {
     mensagem.setAttribute("style", "color: red; font-size:25px;");
     mensagem.innerHTML = "Credenciais inválidas";

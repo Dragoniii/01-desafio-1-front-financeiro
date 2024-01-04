@@ -2,7 +2,7 @@ const instance = axios.create({
   baseURL: "http://localhost:3000",
 });
 
-if (localStorage.getItem("Token") === null) {
+if (sessionStorage.getItem("Token") === null) {
   window.location.assign("http://127.0.0.1:5500/");
 }
 
@@ -23,7 +23,6 @@ function paginaVale() {
 }
 
 function sair() {
-  localStorage.removeItem("Token")
+  sessionStorage.removeItem("Token");
   window.location.assign("http://127.0.0.1:5500/");
 }
-

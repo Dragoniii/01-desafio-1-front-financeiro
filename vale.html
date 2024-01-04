@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movimentações em vale alimentação ou refeição</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header id="mensagem"></header>
+    <section>
+      <div>
+        <button onclick="listarMovimentacoesVale()">
+          Lista de Movimentações dos Vales Alimentação e Refeição
+        </button>
+      </div>
+      <div>
+        <button onclick="criarMovimentacaoVale()">
+          Lançar nova movimentação em Vale Alimentação ou Refeição
+        </button>
+      </div>
+      <div>
+        <button onclick="voltar()">Voltar</button>
+      </div>
+      <div>
+        <button onclick="sair()">Sair</button>
+      </div>
+    </section>
+    <main id="conteudo"></main>
+    <footer></footer>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./js/vale.js"></script>
-</body>
+  </body>
 </html>

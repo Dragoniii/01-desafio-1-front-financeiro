@@ -2,34 +2,33 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Planilha Financeira</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
-
   <body>
-    <h1>Selecione uma opção</h1>
-
-    <div>
-      <button onclick="paginaCredito()">Crédito</button>
-    </div>
-
-    <div>
-      <button onclick="paginaDebito()">Débito</button>
-    </div>
-
-    <div>
-      <button onclick="paginaDinheiro()">Dinheiro</button>
-    </div>
-    
-    <div>
-      <button onclick="paginaVale()">Vale Alimentação e Refeição</button>
-    </div>
-
-    <div>
-      <button onclick="sair()">Sair</button>
-    </div>
-
+    <header>
+      <h1>Selecione uma opção</h1>
+    </header>
+    <section>
+      <div>
+        <button onclick="paginaCredito()">Crédito</button>
+      </div>
+      <div>
+        <button onclick="paginaDebito()">Débito</button>
+      </div>
+      <div>
+        <button onclick="paginaDinheiro()">Dinheiro</button>
+      </div>
+      <div>
+        <button onclick="paginaVale()">Vale Alimentação e Refeição</button>
+      </div>
+      <div>
+        <button onclick="sair()">Sair</button>
+      </div>
+    </section>
+    <aside></aside>
+    <footer></footer>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./js/home.js"></script>
   </body>
