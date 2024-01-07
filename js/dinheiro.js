@@ -7,7 +7,7 @@ if (sessionStorage.getItem("Token") === null) {
 }
 
 function sair() {
-  sessionStorage.removeItem("Token")
+  sessionStorage.removeItem("Token");
   window.location.assign("http://127.0.0.1:5500/");
 }
 
@@ -27,71 +27,135 @@ async function dinheiro() {
 }
 
 async function listarMovimentacoesDinheiro() {
-  const resposta = await instance.get("/dinheiroList");
+  const resposta = await instance.get("/dinheiroList", {
+    headers: {
+      authorization: sessionStorage.getItem("Token"),
+    },
+  });
   const lista = resposta.data;
   const conteudo = document.getElementById("conteudo");
 
-  conteudo.innerHTML = " "
+  const cabecalho = document.createElement("tr");
+  ["Data", "Motivo", "Valor", "Editar", "Apagar"].forEach((titulo) => {
+    const celulaCabecalho = document.createElement("th");
+    celulaCabecalho.innerHTML = titulo;
+    cabecalho.appendChild(celulaCabecalho);
+  });
+  conteudo.innerHTML = "";
+  conteudo.appendChild(cabecalho);
+
+  let totalValor = 0;
 
   lista.forEach((movimentacao) => {
     const linha = document.createElement("tr");
 
     const celulaData = document.createElement("td");
     celulaData.innerHTML = movimentacao.data;
+    linha.appendChild(celulaData);
 
     const celulaMotivo = document.createElement("td");
     celulaMotivo.innerHTML = movimentacao.motivo;
+    linha.appendChild(celulaMotivo);
 
     const celulaValor = document.createElement("td");
-    celulaValor.innerHTML = movimentacao.valor
-
-    const celulaEditar = document.createElement('td')
-    const botaoEditar = document.createElement('button')
-    celulaEditar.appendChild(botaoEditar)
-    botaoEditar.innerHTML = 'Editar'
-
-    const celulaApagar = document.createElement('td')
-    const botaoApagar = document.createElement('button')
-    celulaApagar.appendChild(botaoApagar)
-    botaoApagar.innerHTML = 'Apagar'
-
-    linha.appendChild(celulaData);
-    linha.appendChild(celulaMotivo);
+    celulaValor.innerHTML = movimentacao.valor;
     linha.appendChild(celulaValor);
+    totalValor += parseFloat(movimentacao.valor);
 
-    linha.appendChild(celulaEditar)
-    linha.appendChild(celulaApagar)
+    const celulaEditar = document.createElement("td");
+    const botaoEditar = document.createElement("button");
+    botaoEditar.innerHTML = "Editar";
+    celulaEditar.appendChild(botaoEditar);
+    linha.appendChild(celulaEditar);
 
+    const celulaApagar = document.createElement("td");
+    const botaoApagar = document.createElement("button");
+    botaoApagar.innerHTML = "Apagar";
+    celulaApagar.appendChild(botaoApagar);
+    linha.appendChild(celulaApagar);
 
-    botaoEditar.addEventListener('click', () => ajustarMovimentacaoDinheiro(movimentacao.id))
-    botaoApagar.addEventListener('click', () => ajustarMovimentacaoDinheiro (movimentacao.id))
+    botaoEditar.addEventListener("click", () =>
+      ajustarMovimentacaoDinheiro(movimentacao.id)
+    );
+    botaoApagar.addEventListener("click", () =>
+      deletarMovimentacaoDinheiro(movimentacao.id)
+    );
 
     conteudo.appendChild(linha);
   });
+
+  const rodape = document.createElement("tr");
+  rodape.appendChild(document.createElement("td"));
+  rodape.appendChild(document.createElement("td"));
+  const celulaTotalValor = document.createElement("td");
+  celulaTotalValor.innerHTML = totalValor;
+  rodape.appendChild(celulaTotalValor);
+  const celulaTotalGeral = document.createElement("td");
+  celulaTotalGeral.setAttribute("colspan", "2");
+  celulaTotalGeral.innerHTML = `Total: ${totalValor}`;
+  rodape.appendChild(celulaTotalGeral);
+  conteudo.appendChild(rodape);
 }
 
-function ajustarMovimentacaoDinheiro(idAjustado) {
-  idAjustado
+async function ajustarMovimentacaoDinheiro(idAjustado) {
+  const id = idAjustado;
+  const data = prompt("Data");
+  const motivo = prompt("Qual o motivo?");
+  const valor = parseFloat(prompt("Qual o valor?"));
+
+  const resposta = await instance.put(
+    "/updateDinheiro",
+    {
+      id,
+      data,
+      motivo,
+      valor,
+    },
+    {
+      headers: {
+        authorization: sessionStorage.getItem("Token"),
+      },
+    }
+  );
+  const servidor = resposta.data;
+  alert(servidor);
+
+  listarMovimentacoesDinheiro();
 }
 
+async function deletarMovimentacaoDinheiro(idDeletado) {
+  const resposta = await instance.delete(`/deleteDinheiro?id=${idDeletado}`, {
+    headers: {
+      authorization: sessionStorage.getItem("Token"),
+    },
+  });
+  const servidor = resposta.data;
+  alert(servidor);
 
-function deletarMovimentacaoDinheiro(idDeletado) {
-  idDeletado
+  listarMovimentacoesDinheiro();
 }
 
 async function criarMovimentacaoDinheiro() {
-  const data = prompt("Data")
-  const motivo = prompt("Qual o motivo?")
-  const valor = parseInt(prompt("Qual o valor?"))
+  const data = prompt("Data");
+  const motivo = prompt("Qual o motivo?");
+  const valor = parseInt(prompt("Qual o valor?"));
 
-  const resposta = await instance.post('/addDinheiro', {
-    data, motivo, valor
-  },{
-    headers: {
-      'authorization': sessionStorage.getItem("Token")
+  const resposta = await instance.post(
+    "/addDinheiro",
+    {
+      data,
+      motivo,
+      valor,
+    },
+    {
+      headers: {
+        authorization: sessionStorage.getItem("Token"),
+      },
     }
-  })
+  );
+  const servidor = resposta.data;
+  alert(servidor);
+  listarMovimentacoesDinheiro();
 }
-
 
 dinheiro();

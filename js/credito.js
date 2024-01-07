@@ -27,74 +27,156 @@ async function credito() {
 }
 
 async function listarMovimentacoesCredito() {
-  const resposta = await instance.get("/creditoList");
+  const resposta = await instance.get("/creditoList", {
+    headers: {
+      authorization: sessionStorage.getItem("Token"),
+    },
+  });
   const lista = resposta.data;
   const conteudo = document.getElementById("conteudo");
 
-  conteudo.innerHTML = " "
+  const cabecalho = document.createElement("tr");
+  const titulos = ["Data", "Banco", "Parcelado", "À Vista", "Editar", "Apagar"];
+  titulos.forEach((titulo) => {
+    const celulaCabecalho = document.createElement("th");
+    celulaCabecalho.innerHTML = titulo;
+    cabecalho.appendChild(celulaCabecalho);
+  });
+
+  conteudo.innerHTML = "";
+  conteudo.appendChild(cabecalho);
+
+  let totalParcelado = 0;
+  let totalVista = 0;
 
   lista.forEach((movimentacao) => {
     const linha = document.createElement("tr");
 
     const celulaData = document.createElement("td");
     celulaData.innerHTML = movimentacao.data;
+    linha.appendChild(celulaData);
 
     const celulaBanco = document.createElement("td");
     celulaBanco.innerHTML = movimentacao.banco;
+    linha.appendChild(celulaBanco);
 
     const celulaParcelado = document.createElement("td");
     celulaParcelado.innerHTML = movimentacao.parcelado;
+    linha.appendChild(celulaParcelado);
+    totalParcelado += parseFloat(movimentacao.parcelado);
 
     const celulaVista = document.createElement("td");
     celulaVista.innerHTML = movimentacao.vista;
-
-
-    const celulaEditar = document.createElement('td')
-    const botaoEditar = document.createElement('button')
-    celulaEditar.appendChild(botaoEditar)
-    botaoEditar.innerHTML = 'Editar'
-
-    const celulaApagar = document.createElement('td')
-    const botaoApagar = document.createElement('button')
-    celulaApagar.appendChild(botaoApagar)
-    botaoApagar.innerHTML = 'Apagar'
-
-    linha.appendChild(celulaData);
-    linha.appendChild(celulaBanco);
-    linha.appendChild(celulaParcelado);
     linha.appendChild(celulaVista);
+    totalVista += parseFloat(movimentacao.vista);
 
-    linha.appendChild(celulaEditar)
-    linha.appendChild(celulaApagar)
+    const celulaEditar = document.createElement("td");
+    const botaoEditar = document.createElement("button");
+    botaoEditar.innerHTML = "Editar";
+    celulaEditar.appendChild(botaoEditar);
+    linha.appendChild(celulaEditar);
 
-    botaoEditar.addEventListener('click', () => ajustarMovimentacaoCredito(movimentacao.id))
-    botaoApagar.addEventListener('click', () => deletarMovimentacaoCredito(movimentacao.id))
+    const celulaApagar = document.createElement("td");
+    const botaoApagar = document.createElement("button");
+    botaoApagar.innerHTML = "Apagar";
+    celulaApagar.appendChild(botaoApagar);
+    linha.appendChild(celulaApagar);
+
+    botaoEditar.addEventListener("click", () =>
+      ajustarMovimentacaoCredito(movimentacao.id)
+    );
+    botaoApagar.addEventListener("click", () =>
+      deletarMovimentacaoCredito(movimentacao.id)
+    );
 
     conteudo.appendChild(linha);
   });
+
+  const rodape = document.createElement("tr");
+
+  rodape.appendChild(document.createElement("td"));
+  rodape.appendChild(document.createElement("td"));
+
+  const celulaTotalParcelado = document.createElement("td");
+  celulaTotalParcelado.innerHTML = totalParcelado;
+  rodape.appendChild(celulaTotalParcelado);
+
+  const celulaTotalVista = document.createElement("td");
+  celulaTotalVista.innerHTML = totalVista;
+  rodape.appendChild(celulaTotalVista);
+
+  const celulaTotalGeral = document.createElement("td");
+  celulaTotalGeral.setAttribute("colspan", "2");
+  celulaTotalGeral.innerHTML = `Total: ${totalParcelado + totalVista}`;
+  rodape.appendChild(celulaTotalGeral);
+
+  conteudo.appendChild(rodape);
 }
 
-function ajustarMovimentacaoCredito(idAjustado) {
-  idAjustado
+async function ajustarMovimentacaoCredito(idAjustado) {
+  const id = idAjustado;
+  const data = prompt("Data");
+  const banco = prompt("Qual banco?");
+  const parcelado = parseFloat(prompt("Qual o parcelado?"));
+  const vista = parseFloat(prompt("Qual o valor à vista?"));
+
+  const resposta = await instance.put(
+    "/updateCredito",
+    {
+      id,
+      data,
+      banco,
+      parcelado,
+      vista,
+    },
+    {
+      headers: {
+        authorization: sessionStorage.getItem("Token"),
+      },
+    }
+  );
+  const servidor = resposta.data;
+  alert(servidor);
+
+  listarMovimentacoesCredito();
 }
 
-function deletarMovimentacaoCredito(idDeletado) {
-  idDeletado
+async function deletarMovimentacaoCredito(idDeletado) {
+  const resposta = await instance.delete(`/deleteCredito?id=${idDeletado}`, {
+    headers: {
+      authorization: sessionStorage.getItem("Token"),
+    },
+  });
+  const servidor = resposta.data;
+  alert(servidor);
+
+  listarMovimentacoesCredito();
 }
 
 async function criarMovimentacaoCredito() {
-  const data = prompt("Data")
-  const banco = prompt("Qual banco?")
-  const parcelado = parseFloat(prompt("Qual o parcelado?"))
-  const vista = parseFloat(prompt("Qual o valor à vista?"))
+  const data = prompt("Data");
+  const banco = prompt("Qual banco?");
+  const parcelado = parseFloat(prompt("Qual o parcelado?"));
+  const vista = parseFloat(prompt("Qual o valor à vista?"));
 
-  const resposta = await instance.post('/addCredito', {
-    data, banco, parcelado, vista
-  },{
-    headers: {
-      'authorization': sessionStorage.getItem("Token")
+  const resposta = await instance.post(
+    "/addCredito",
+    {
+      data,
+      banco,
+      parcelado,
+      vista,
+    },
+    {
+      headers: {
+        authorization: sessionStorage.getItem("Token"),
+      },
     }
-  })
+  );
+  const servidor = resposta.data;
+  alert(servidor);
+
+  listarMovimentacoesCredito();
 }
 
 credito();

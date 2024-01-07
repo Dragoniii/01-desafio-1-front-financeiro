@@ -27,70 +27,135 @@ async function vale() {
 }
 
 async function listarMovimentacoesVale() {
-  const resposta = await instance.get("/valeList");
+  const resposta = await instance.get("/valeList", {
+    headers: {
+      authorization: sessionStorage.getItem("Token"),
+    },
+  });
   const lista = resposta.data;
   const conteudo = document.getElementById("conteudo");
 
-  conteudo.innerHTML = " "
+  const cabecalho = document.createElement("tr");
+  ["Data", "Vale", "Valor", "Editar", "Apagar"].forEach((titulo) => {
+    const celulaCabecalho = document.createElement("th");
+    celulaCabecalho.innerHTML = titulo;
+    cabecalho.appendChild(celulaCabecalho);
+  });
+  conteudo.innerHTML = "";
+  conteudo.appendChild(cabecalho);
+
+  let totalValor = 0;
 
   lista.forEach((movimentacao) => {
     const linha = document.createElement("tr");
 
     const celulaData = document.createElement("td");
     celulaData.innerHTML = movimentacao.data;
+    linha.appendChild(celulaData);
 
     const celulaVale = document.createElement("td");
     celulaVale.innerHTML = movimentacao.vale;
+    linha.appendChild(celulaVale);
 
     const celulaValor = document.createElement("td");
-    celulaValor.innerHTML = movimentacao.valor
-
-    const celulaEditar = document.createElement('td')
-    const botaoEditar = document.createElement('button')
-    celulaEditar.appendChild(botaoEditar)
-    botaoEditar.innerHTML = 'Editar'
-
-    const celulaApagar = document.createElement('td')
-    const botaoApagar = document.createElement('button')
-    celulaApagar.appendChild(botaoApagar)
-    botaoApagar.innerHTML = 'Apagar'
-
-    linha.appendChild(celulaData);
-    linha.appendChild(celulaVale);
+    celulaValor.innerHTML = movimentacao.valor;
     linha.appendChild(celulaValor);
+    totalValor += parseFloat(movimentacao.valor);
 
-    linha.appendChild(celulaEditar)
-    linha.appendChild(celulaApagar)
+    const celulaEditar = document.createElement("td");
+    const botaoEditar = document.createElement("button");
+    botaoEditar.innerHTML = "Editar";
+    celulaEditar.appendChild(botaoEditar);
+    linha.appendChild(celulaEditar);
 
+    const celulaApagar = document.createElement("td");
+    const botaoApagar = document.createElement("button");
+    botaoApagar.innerHTML = "Apagar";
+    celulaApagar.appendChild(botaoApagar);
+    linha.appendChild(celulaApagar);
 
-    botaoEditar.addEventListener('click', () => ajustarMovimentacaoVale(movimentacao.id))
-    botaoApagar.addEventListener('click', () => deletarMovimentacaoVale (movimentacao.id))
+    botaoEditar.addEventListener("click", () =>
+      ajustarMovimentacaoVale(movimentacao.id)
+    );
+    botaoApagar.addEventListener("click", () =>
+      deletarMovimentacaoVale(movimentacao.id)
+    );
 
     conteudo.appendChild(linha);
   });
+
+  const rodape = document.createElement("tr");
+  rodape.appendChild(document.createElement("td"));
+  rodape.appendChild(document.createElement("td"));
+  const celulaTotalValor = document.createElement("td");
+  celulaTotalValor.innerHTML = totalValor;
+  rodape.appendChild(celulaTotalValor);
+  const celulaTotalGeral = document.createElement("td");
+  celulaTotalGeral.setAttribute("colspan", "2");
+  celulaTotalGeral.innerHTML = `Total : ${totalValor}`;
+  rodape.appendChild(celulaTotalGeral);
+  conteudo.appendChild(rodape);
 }
 
-function ajustarMovimentacaoVale(idAjustado) {
-  idAjustado
+async function ajustarMovimentacaoVale(idAjustado) {
+  const id = idAjustado;
+  const data = prompt("Data");
+  const vale = prompt("Qual o vale?");
+  const valor = parseFloat(prompt("Qual o valor?"));
+
+  const resposta = await instance.put(
+    "/updateVale",
+    {
+      id,
+      data,
+      vale,
+      valor,
+    },
+    {
+      headers: {
+        authorization: sessionStorage.getItem("Token"),
+      },
+    }
+  );
+  const servidor = resposta.data;
+  alert(servidor);
+
+  listarMovimentacoesVale();
 }
 
+async function deletarMovimentacaoVale(idDeletado) {
+  const resposta = await instance.delete(`/deleteVale?id=${idDeletado}`, {
+    headers: {
+      authorization: sessionStorage.getItem("Token"),
+    },
+  });
+  const servidor = resposta.data;
+  alert(servidor);
 
-function deletarMovimentacaoVale(idDeletado) {
-  idDeletado
+  listarMovimentacoesVale();
 }
 
 async function criarMovimentacaoVale() {
-  const data = prompt("Data")
-  const vale = prompt("Vale alimentação ou refeição?")
-  const valor = parseFloat(prompt("Qual o valor?"))
+  const data = prompt("Data");
+  const vale = prompt("Vale alimentação ou refeição?");
+  const valor = parseFloat(prompt("Qual o valor?"));
 
-  const resposta = await instance.post('/addVale', {
-    data, vale, valor
-  },{
-    headers: {
-      'authorization': sessionStorage.getItem("Token")
+  const resposta = await instance.post(
+    "/addVale",
+    {
+      data,
+      vale,
+      valor,
+    },
+    {
+      headers: {
+        authorization: sessionStorage.getItem("Token"),
+      },
     }
-  })
+  );
+  const servidor = resposta.data;
+  alert(servidor);
+  listarMovimentacoesVale();
 }
 
 vale();
