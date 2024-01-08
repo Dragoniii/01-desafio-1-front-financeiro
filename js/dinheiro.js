@@ -1,5 +1,5 @@
 const instance = axios.create({
-  baseURL: "http://localhost:3000/dinheiro",
+  baseURL: "http://localhost:3000",
 });
 
 if (sessionStorage.getItem("Token") === null) {
@@ -17,7 +17,7 @@ function voltar() {
 
 async function dinheiro() {
   try {
-    const resposta = await instance.get("/");
+    const resposta = await instance.get("/dinheiro");
     const texto = resposta.data;
     const mensagem = document.getElementById("mensagem");
     mensagem.innerHTML = texto;
@@ -27,7 +27,7 @@ async function dinheiro() {
 }
 
 async function listarMovimentacoesDinheiro() {
-  const resposta = await instance.get("/dinheiroList", {
+  const resposta = await instance.get("/dinheiro/dinheiroList", {
     headers: {
       authorization: sessionStorage.getItem("Token"),
     },
@@ -74,6 +74,9 @@ async function listarMovimentacoesDinheiro() {
     celulaApagar.appendChild(botaoApagar);
     linha.appendChild(celulaApagar);
 
+    botaoApagar.classList.add("btn2");
+    botaoEditar.classList.add("btn2");  
+
     botaoEditar.addEventListener("click", () =>
       ajustarMovimentacaoDinheiro(movimentacao.id)
     );
@@ -104,7 +107,7 @@ async function ajustarMovimentacaoDinheiro(idAjustado) {
   const valor = parseFloat(prompt("Qual o valor?"));
 
   const resposta = await instance.put(
-    "/updateDinheiro",
+    "/dinheiro/updateDinheiro",
     {
       id,
       data,
@@ -124,7 +127,7 @@ async function ajustarMovimentacaoDinheiro(idAjustado) {
 }
 
 async function deletarMovimentacaoDinheiro(idDeletado) {
-  const resposta = await instance.delete(`/deleteDinheiro?id=${idDeletado}`, {
+  const resposta = await instance.delete(`/dinheiro/deleteDinheiro?id=${idDeletado}`, {
     headers: {
       authorization: sessionStorage.getItem("Token"),
     },
@@ -141,7 +144,7 @@ async function criarMovimentacaoDinheiro() {
   const valor = parseInt(prompt("Qual o valor?"));
 
   const resposta = await instance.post(
-    "/addDinheiro",
+    "/dinheiro/addDinheiro",
     {
       data,
       motivo,

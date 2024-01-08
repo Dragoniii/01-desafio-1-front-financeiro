@@ -6,29 +6,30 @@
     <title>Movimentações em dinheiro vivo</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body>
+  <body onload="listarMovimentacoesDinheiro(), listarJustificativas(3)">
     <header id="mensagem"></header>
     <section>
       <div>
-        <button onclick="listarMovimentacoesDinheiro()">
-          Lista de Movimentações em Dinheiro Vivo
-        </button>
-      </div>
-      <div>
-        <button onclick="criarMovimentacaoDinheiro()">
+        <button class="btn1" onclick="criarMovimentacaoDinheiro()">
           Lançar nova movimentação em Dinheiro Vivo
         </button>
       </div>
       <div>
-        <button onclick="voltar()">Voltar</button>
+        <button class="btn1" onclick="criarJustificativa(3)">
+          Lançar nova Justificativa
+        </button>
       </div>
       <div>
-        <button onclick="sair()">Sair</button>
+        <button class="btn1" onclick="voltar()">Voltar</button>
+      </div>
+      <div>
+        <button class="btn1" onclick="sair()">Sair</button>
       </div>
     </section>
     <main id="conteudo"></main>
-    <footer></footer>
+    <footer id="justificativa"></footer>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./js/dinheiro.js"></script>
+    <script src="./js/justificativa.js"></script>
   </body>
 </html>

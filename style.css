@@ -4,27 +4,33 @@
 }
 
 body {
-  background-color: #808080;
+  background-color: #EEEEEE;
 }
 
 .table {
   padding: 5px;
 }
 
-.btn {
-  background-color: rgb(113, 232, 144);
+.btn1 {
+  background-color: #34B3F1;
   color: black;
   padding: 0.5rem;
 }
 
-.btnCancela {
-  background-color: rgb(238, 78, 78);
-  color: black;
-  padding: 0.5rem;
+.btn1:hover {
+  background-color: #000000;
+  color: #EEEEEE;
 }
 
-.btnCancela:hover {
-  background-color: brown;
+.btn2:hover {
+  background-color:  #000000;
+  color: #EEEEEE;
+}
+
+.btn2{
+  background-color: #F15412;
+  color: black;
+  padding: 0.5rem;
 }
 
 .tabela {

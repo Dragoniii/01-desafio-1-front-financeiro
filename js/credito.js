@@ -1,5 +1,5 @@
 const instance = axios.create({
-  baseURL: "http://localhost:3000/credito",
+  baseURL: "http://localhost:3000",
 });
 
 if (sessionStorage.getItem("Token") === null) {
@@ -17,7 +17,7 @@ function voltar() {
 
 async function credito() {
   try {
-    const resposta = await instance.get("/");
+    const resposta = await instance.get("/credito");
     const texto = resposta.data;
     const mensagem = document.getElementById("mensagem");
     mensagem.innerHTML = texto;
@@ -27,7 +27,7 @@ async function credito() {
 }
 
 async function listarMovimentacoesCredito() {
-  const resposta = await instance.get("/creditoList", {
+  const resposta = await instance.get("/credito/creditoList", {
     headers: {
       authorization: sessionStorage.getItem("Token"),
     },
@@ -73,20 +73,28 @@ async function listarMovimentacoesCredito() {
     const celulaEditar = document.createElement("td");
     const botaoEditar = document.createElement("button");
     botaoEditar.innerHTML = "Editar";
+
     celulaEditar.appendChild(botaoEditar);
     linha.appendChild(celulaEditar);
 
     const celulaApagar = document.createElement("td");
     const botaoApagar = document.createElement("button");
     botaoApagar.innerHTML = "Apagar";
+
     celulaApagar.appendChild(botaoApagar);
     linha.appendChild(celulaApagar);
 
+    botaoApagar.classList.add("btn2");
+    botaoEditar.classList.add("btn2");
+    
     botaoEditar.addEventListener("click", () =>
       ajustarMovimentacaoCredito(movimentacao.id)
     );
     botaoApagar.addEventListener("click", () =>
       deletarMovimentacaoCredito(movimentacao.id)
+
+      
+
     );
 
     conteudo.appendChild(linha);
@@ -121,7 +129,7 @@ async function ajustarMovimentacaoCredito(idAjustado) {
   const vista = parseFloat(prompt("Qual o valor à vista?"));
 
   const resposta = await instance.put(
-    "/updateCredito",
+    "/credito/updateCredito",
     {
       id,
       data,
@@ -142,7 +150,7 @@ async function ajustarMovimentacaoCredito(idAjustado) {
 }
 
 async function deletarMovimentacaoCredito(idDeletado) {
-  const resposta = await instance.delete(`/deleteCredito?id=${idDeletado}`, {
+  const resposta = await instance.delete(`/credito/deleteCredito?id=${idDeletado}`, {
     headers: {
       authorization: sessionStorage.getItem("Token"),
     },
@@ -160,7 +168,7 @@ async function criarMovimentacaoCredito() {
   const vista = parseFloat(prompt("Qual o valor à vista?"));
 
   const resposta = await instance.post(
-    "/addCredito",
+    "/credito/addCredito",
     {
       data,
       banco,

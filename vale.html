@@ -6,29 +6,30 @@
     <title>Movimentações em vale alimentação ou refeição</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body>
+  <body onload="listarMovimentacoesVale(), listarJustificativas(4)">
     <header id="mensagem"></header>
     <section>
       <div>
-        <button onclick="listarMovimentacoesVale()">
-          Lista de Movimentações dos Vales Alimentação e Refeição
-        </button>
-      </div>
-      <div>
-        <button onclick="criarMovimentacaoVale()">
+        <button class="btn1" onclick="criarMovimentacaoVale()">
           Lançar nova movimentação em Vale Alimentação ou Refeição
         </button>
       </div>
       <div>
-        <button onclick="voltar()">Voltar</button>
+        <button class="btn1" onclick="criarJustificativa(4)">
+          Lançar nova Justificativa
+        </button>
       </div>
       <div>
-        <button onclick="sair()">Sair</button>
+        <button class="btn1" onclick="voltar()">Voltar</button>
+      </div>
+      <div>
+        <button class="btn1" onclick="sair()">Sair</button>
       </div>
     </section>
     <main id="conteudo"></main>
-    <footer></footer>
+    <footer id="justificativa"></footer>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./js/vale.js"></script>
+    <script src="./js/justificativa.js"></script>
   </body>
 </html>

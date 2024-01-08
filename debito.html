@@ -6,29 +6,30 @@
     <title>Movimentações em débito em conta</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body>
+  <body onload="listarMovimentacoesDebito(), listarJustificativas(2)">
     <header id="mensagem"></header>
     <section>
       <div>
-        <button onclick="listarMovimentacoesDebito()">
-          Lista de Movimentações das Contas Correntes
-        </button>
-      </div>
-      <div>
-        <button onclick="criarMovimentacaoDebito()">
+        <button class="btn1" onclick="criarMovimentacaoDebito()">
           Lançar nova movimentação da Conta Corrente
         </button>
       </div>
       <div>
-        <button onclick="voltar()">Voltar</button>
+        <button class="btn1" onclick="criarJustificativa(2)">
+          Lançar nova Justificativa
+        </button>
       </div>
       <div>
-        <button onclick="sair()">Sair</button>
+        <button class="btn1" onclick="voltar()">Voltar</button>
+      </div>
+      <div>
+        <button class="btn1" onclick="sair()">Sair</button>
       </div>
     </section>
     <main id="conteudo"></main>
-    <footer></footer>
+    <footer id="justificativa"></footer>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./js/debito.js"></script>
+    <script src="./js/justificativa.js"></script>
   </body>
 </html>

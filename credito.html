@@ -6,29 +6,30 @@
     <title>Movimentações em cartão de crédito</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body>
+  <body onload="listarMovimentacoesCredito(), listarJustificativas(1)">
     <header id="mensagem"></header>
     <section>
       <div>
-        <button onclick="listarMovimentacoesCredito()">
-          Lista de Movimentações dos Cartões de Crédito
-        </button>
-      </div>
-      <div>
-        <button onclick="criarMovimentacaoCredito()">
+        <button class="btn1" onclick="criarMovimentacaoCredito()">
           Lançar nova movimentação do Cartão
         </button>
       </div>
       <div>
-        <button onclick="voltar()">Voltar</button>
+        <button class="btn1" onclick="criarJustificativa(1)">
+          Lançar nova Justificativa
+        </button>
       </div>
       <div>
-        <button onclick="sair()">Sair</button>
+        <button class="btn1" onclick="voltar()">Voltar</button>
+      </div>
+      <div>
+        <button class="btn1" onclick="sair()">Sair</button>
       </div>
     </section>
     <main id="conteudo"></main>
-    <footer></footer>
+    <footer id="justificativa"></footer>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./js/credito.js"></script>
+    <script src="./js/justificativa.js"></script>
   </body>
 </html>

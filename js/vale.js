@@ -1,5 +1,5 @@
 const instance = axios.create({
-  baseURL: "http://localhost:3000/vale",
+  baseURL: "http://localhost:3000",
 });
 
 if (sessionStorage.getItem("Token") === null) {
@@ -17,7 +17,7 @@ function voltar() {
 
 async function vale() {
   try {
-    const resposta = await instance.get("/");
+    const resposta = await instance.get("/vale");
     const texto = resposta.data;
     const mensagem = document.getElementById("mensagem");
     mensagem.innerHTML = texto;
@@ -27,7 +27,7 @@ async function vale() {
 }
 
 async function listarMovimentacoesVale() {
-  const resposta = await instance.get("/valeList", {
+  const resposta = await instance.get("/vale/valeList", {
     headers: {
       authorization: sessionStorage.getItem("Token"),
     },
@@ -74,6 +74,9 @@ async function listarMovimentacoesVale() {
     celulaApagar.appendChild(botaoApagar);
     linha.appendChild(celulaApagar);
 
+    botaoApagar.classList.add("btn2");
+    botaoEditar.classList.add("btn2");  
+
     botaoEditar.addEventListener("click", () =>
       ajustarMovimentacaoVale(movimentacao.id)
     );
@@ -104,7 +107,7 @@ async function ajustarMovimentacaoVale(idAjustado) {
   const valor = parseFloat(prompt("Qual o valor?"));
 
   const resposta = await instance.put(
-    "/updateVale",
+    "/vale/updateVale",
     {
       id,
       data,
@@ -124,7 +127,7 @@ async function ajustarMovimentacaoVale(idAjustado) {
 }
 
 async function deletarMovimentacaoVale(idDeletado) {
-  const resposta = await instance.delete(`/deleteVale?id=${idDeletado}`, {
+  const resposta = await instance.delete(`/vale/deleteVale?id=${idDeletado}`, {
     headers: {
       authorization: sessionStorage.getItem("Token"),
     },
@@ -141,7 +144,7 @@ async function criarMovimentacaoVale() {
   const valor = parseFloat(prompt("Qual o valor?"));
 
   const resposta = await instance.post(
-    "/addVale",
+    "/vale/addVale",
     {
       data,
       vale,

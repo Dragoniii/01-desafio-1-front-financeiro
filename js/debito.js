@@ -1,5 +1,5 @@
 const instance = axios.create({
-  baseURL: "http://localhost:3000/debito",
+  baseURL: "http://localhost:3000",
 });
 
 if (sessionStorage.getItem("Token") === null) {
@@ -17,7 +17,7 @@ function voltar() {
 
 async function debito() {
   try {
-    const resposta = await instance.get("/");
+    const resposta = await instance.get("/debito");
     const texto = resposta.data;
     const mensagem = document.getElementById("mensagem");
     mensagem.innerHTML = texto;
@@ -27,7 +27,7 @@ async function debito() {
 }
 
 async function listarMovimentacoesDebito() {
-  const resposta = await instance.get("/debitoList", {
+  const resposta = await instance.get("/debito/debitoList", {
     headers: {
       authorization: sessionStorage.getItem("Token"),
     },
@@ -68,14 +68,21 @@ async function listarMovimentacoesDebito() {
     celulaEditar.appendChild(botaoEditar);
     linha.appendChild(celulaEditar);
 
+
+
     const celulaApagar = document.createElement("td");
     const botaoApagar = document.createElement("button");
     botaoApagar.innerHTML = "Apagar";
     celulaApagar.appendChild(botaoApagar);
     linha.appendChild(celulaApagar);
 
+
+    botaoApagar.classList.add("btn2");
+    botaoEditar.classList.add("btn2");    
+
     botaoEditar.addEventListener("click", () =>
       ajustarMovimentacaoDebito(movimentacao.id)
+      
     );
     botaoApagar.addEventListener("click", () =>
       deletarMovimentacaoDebito(movimentacao.id)
@@ -104,7 +111,7 @@ async function ajustarMovimentacaoDebito(idAjustado) {
   const valor = parseFloat(prompt("Qual o valor?"));
 
   const resposta = await instance.put(
-    "/updateDebito",
+    "/debito/updateDebito",
     {
       id,
       data,
@@ -124,7 +131,7 @@ async function ajustarMovimentacaoDebito(idAjustado) {
 }
 
 async function deletarMovimentacaoDebito(idDeletado) {
-  const resposta = await instance.delete(`/deleteDebito?id=${idDeletado}`, {
+  const resposta = await instance.delete(`/debito/deleteDebito?id=${idDeletado}`, {
     headers: {
       authorization: sessionStorage.getItem("Token"),
     },
@@ -141,7 +148,7 @@ async function criarMovimentacaoDebito() {
   const valor = parseFloat(prompt("Qual o valor?"));
 
   const resposta = await instance.post(
-    "/addDebito",
+    "/debito/addDebito",
     {
       data,
       banco,

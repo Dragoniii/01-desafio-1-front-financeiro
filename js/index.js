@@ -21,8 +21,7 @@ async function logar(event) {
 
     window.location.assign("http://127.0.0.1:5500/home.html");
   } catch (error) {
-    mensagem.setAttribute("style", "color: red; font-size:25px;");
-    mensagem.innerHTML = "Credenciais inválidas";
+    alert ("Credenciais inválidas");
     console.log(error);
   }
 }
