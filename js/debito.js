@@ -36,7 +36,7 @@ async function listarMovimentacoesDebito() {
   const conteudo = document.getElementById("conteudo");
 
   const cabecalho = document.createElement("tr");
-  ["Data", "Banco", "Valor", "Editar", "Apagar"].forEach((titulo) => {
+  ["Mês", "Banco", "Valor", "Editar", "Apagar"].forEach((titulo) => {
     const celulaCabecalho = document.createElement("th");
     celulaCabecalho.innerHTML = titulo;
     cabecalho.appendChild(celulaCabecalho);
@@ -58,7 +58,7 @@ async function listarMovimentacoesDebito() {
     linha.appendChild(celulaBanco);
 
     const celulaValor = document.createElement("td");
-    celulaValor.innerHTML = movimentacao.valor;
+    celulaValor.innerHTML = (movimentacao.valor).toFixed(2);
     linha.appendChild(celulaValor);
     totalValor += parseFloat(movimentacao.valor);
 
@@ -84,9 +84,12 @@ async function listarMovimentacoesDebito() {
       ajustarMovimentacaoDebito(movimentacao.id)
       
     );
-    botaoApagar.addEventListener("click", () =>
-      deletarMovimentacaoDebito(movimentacao.id)
-    );
+
+    botaoApagar.addEventListener("click", () => {
+      if (confirm("Tem certeza que deseja apagar esta movimentação de débito?")) {
+        deletarMovimentacaoDebito(movimentacao.id);
+      }
+    });
 
     conteudo.appendChild(linha);
   });
@@ -95,18 +98,18 @@ async function listarMovimentacoesDebito() {
   rodape.appendChild(document.createElement("td"));
   rodape.appendChild(document.createElement("td"));
   const celulaTotalValor = document.createElement("td");
-  celulaTotalValor.innerHTML = totalValor;
+  celulaTotalValor.innerHTML = totalValor.toFixed(2);
   rodape.appendChild(celulaTotalValor);
   const celulaTotalGeral = document.createElement("td");
   celulaTotalGeral.setAttribute("colspan", "2");
-  celulaTotalGeral.innerHTML = `Total: ${totalValor}`;
+  celulaTotalGeral.innerHTML = `Total: ${totalValor.toFixed(2)}`;
   rodape.appendChild(celulaTotalGeral);
   conteudo.appendChild(rodape);
 }
 
 async function ajustarMovimentacaoDebito(idAjustado) {
   const id = idAjustado;
-  const data = prompt("Data");
+  const data = prompt("Qual o mês das movimentações");
   const banco = prompt("Qual banco?");
   const valor = parseFloat(prompt("Qual o valor?"));
 
@@ -143,7 +146,7 @@ async function deletarMovimentacaoDebito(idDeletado) {
 }
 
 async function criarMovimentacaoDebito() {
-  const data = prompt("Data");
+  const data = prompt("Qual o mês das movimentações");
   const banco = prompt("Qual banco?");
   const valor = parseFloat(prompt("Qual o valor?"));
 

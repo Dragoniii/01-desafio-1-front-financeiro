@@ -75,9 +75,12 @@ async function listarJustificativas(fonteDoRecurso) {
       botaoEditar.addEventListener("click", () =>
         ajustarJustificativa(explicacao.id, explicacao.fonte)
       );
-      botaoApagar.addEventListener("click", () =>
-        deletarJustificativa(explicacao.id, explicacao.fonte)
-      );
+
+      botaoApagar.addEventListener("click", () => {
+        if (confirm(`Tem certeza que deseja apagar este diagnóstico?`)) {
+          deletarJustificativa(explicacao.id, explicacao.fonte);
+        }
+      });
 
       justificativa.appendChild(linha);
     }

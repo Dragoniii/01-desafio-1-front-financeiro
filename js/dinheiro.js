@@ -80,9 +80,12 @@ async function listarMovimentacoesDinheiro() {
     botaoEditar.addEventListener("click", () =>
       ajustarMovimentacaoDinheiro(movimentacao.id)
     );
-    botaoApagar.addEventListener("click", () =>
-      deletarMovimentacaoDinheiro(movimentacao.id)
-    );
+
+    botaoApagar.addEventListener("click", () => {
+      if (confirm("Tem certeza que deseja apagar esta movimentação em dinheiro?")) {
+        deletarMovimentacaoDinheiro(movimentacao.id);
+      }
+    });
 
     conteudo.appendChild(linha);
   });

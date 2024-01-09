@@ -36,7 +36,7 @@ async function listarMovimentacoesCredito() {
   const conteudo = document.getElementById("conteudo");
 
   const cabecalho = document.createElement("tr");
-  const titulos = ["Data", "Banco", "Parcelado", "À Vista", "Editar", "Apagar"];
+  const titulos = ["Mês", "Banco", "Parcelado", "À Vista", "Editar", "Apagar"];
   titulos.forEach((titulo) => {
     const celulaCabecalho = document.createElement("th");
     celulaCabecalho.innerHTML = titulo;
@@ -61,12 +61,12 @@ async function listarMovimentacoesCredito() {
     linha.appendChild(celulaBanco);
 
     const celulaParcelado = document.createElement("td");
-    celulaParcelado.innerHTML = movimentacao.parcelado;
+    celulaParcelado.innerHTML = (movimentacao.parcelado).toFixed(2);
     linha.appendChild(celulaParcelado);
     totalParcelado += parseFloat(movimentacao.parcelado);
 
     const celulaVista = document.createElement("td");
-    celulaVista.innerHTML = movimentacao.vista;
+    celulaVista.innerHTML = (movimentacao.vista).toFixed(2);
     linha.appendChild(celulaVista);
     totalVista += parseFloat(movimentacao.vista);
 
@@ -90,13 +90,12 @@ async function listarMovimentacoesCredito() {
     botaoEditar.addEventListener("click", () =>
       ajustarMovimentacaoCredito(movimentacao.id)
     );
-    botaoApagar.addEventListener("click", () =>
-      deletarMovimentacaoCredito(movimentacao.id)
-
-      
-
-    );
-
+    botaoApagar.addEventListener("click", () => {
+      if (confirm("Tem certeza que deseja apagar esta movimentação de crédito?")) {
+        deletarMovimentacaoCredito(movimentacao.id);
+      }
+    });
+        
     conteudo.appendChild(linha);
   });
 
@@ -106,24 +105,27 @@ async function listarMovimentacoesCredito() {
   rodape.appendChild(document.createElement("td"));
 
   const celulaTotalParcelado = document.createElement("td");
-  celulaTotalParcelado.innerHTML = totalParcelado;
+  celulaTotalParcelado.innerHTML = (totalParcelado).toFixed(2);
   rodape.appendChild(celulaTotalParcelado);
 
   const celulaTotalVista = document.createElement("td");
-  celulaTotalVista.innerHTML = totalVista;
+  celulaTotalVista.innerHTML = (totalVista).toFixed(2);
   rodape.appendChild(celulaTotalVista);
 
   const celulaTotalGeral = document.createElement("td");
   celulaTotalGeral.setAttribute("colspan", "2");
-  celulaTotalGeral.innerHTML = `Total: ${totalParcelado + totalVista}`;
+  celulaTotalGeral.innerHTML = `Total: ${(totalParcelado + totalVista).toFixed(2)}`;
   rodape.appendChild(celulaTotalGeral);
 
   conteudo.appendChild(rodape);
 }
 
+//120.8
+//769.21
+
 async function ajustarMovimentacaoCredito(idAjustado) {
   const id = idAjustado;
-  const data = prompt("Data");
+  const data = prompt("Qual o mês?");
   const banco = prompt("Qual banco?");
   const parcelado = parseFloat(prompt("Qual o parcelado?"));
   const vista = parseFloat(prompt("Qual o valor à vista?"));
@@ -162,7 +164,7 @@ async function deletarMovimentacaoCredito(idDeletado) {
 }
 
 async function criarMovimentacaoCredito() {
-  const data = prompt("Data");
+  const data = prompt("Qual o mês?");
   const banco = prompt("Qual banco?");
   const parcelado = parseFloat(prompt("Qual o parcelado?"));
   const vista = parseFloat(prompt("Qual o valor à vista?"));
