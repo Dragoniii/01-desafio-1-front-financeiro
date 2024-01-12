@@ -3,26 +3,26 @@ const instance = axios.create({
 });
 
 if (sessionStorage.getItem("Token") === null) {
-  window.location.assign("http://127.0.0.1:5500/");
+  window.location.assign("https://dragoniii.github.io/01-desafio-1-front-financeiro/");
 }
 
 function paginaCredito() {
-  window.location.assign("http://127.0.0.1:5500/credito.html");
+  window.location.assign("https://dragoniii.github.io/01-desafio-1-front-financeiro/credito.html");
 }
 
 function paginaDebito() {
-  window.location.assign("http://127.0.0.1:5500/debito.html");
+  window.location.assign("https://dragoniii.github.io/01-desafio-1-front-financeiro/debito.html");
 }
 
 function paginaDinheiro() {
-  window.location.assign("http://127.0.0.1:5500/dinheiro.html");
+  window.location.assign("https://dragoniii.github.io/01-desafio-1-front-financeiro/dinheiro.html");
 }
 
 function paginaVale() {
-  window.location.assign("http://127.0.0.1:5500/vale.html");
+  window.location.assign("https://dragoniii.github.io/01-desafio-1-front-financeiro/vale.html");
 }
 
 function sair() {
   sessionStorage.removeItem("Token");
-  window.location.assign("http://127.0.0.1:5500/");
+  window.location.assign("https://dragoniii.github.io/01-desafio-1-front-financeiro/");
 }

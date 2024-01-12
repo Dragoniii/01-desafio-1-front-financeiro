@@ -3,12 +3,12 @@ const instance = axios.create({
 });
 
 if (sessionStorage.getItem("Token") === null) {
-  window.location.assign("http://127.0.0.1:5500/");
+  window.location.assign("https://dragoniii.github.io/01-desafio-1-front-financeiro/");
 }
 
 function sair() {
   sessionStorage.removeItem("Token");
-  window.location.assign("http://127.0.0.1:5500/");
+  window.location.assign("https://dragoniii.github.io/01-desafio-1-front-financeiro/");
 }
 
 function voltar() {
