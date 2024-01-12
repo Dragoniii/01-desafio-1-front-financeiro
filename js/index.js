@@ -1,7 +1,7 @@
 const mensagem = document.getElementById("mensagem");
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://planilha-financeira.onrender.com/",
 });
 
 async function logar(event) {
