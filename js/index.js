@@ -19,7 +19,7 @@ async function logar(event) {
 
     sessionStorage.setItem("Token", token);
 
-    window.location.assign("http://127.0.0.1:5500/home.html");
+    window.location.assign("https://dragoniii.github.io/01-desafio-1-front-financeiro/home.html");
   } catch (error) {
     alert ("Credenciais inválidas");
     console.log(error);
